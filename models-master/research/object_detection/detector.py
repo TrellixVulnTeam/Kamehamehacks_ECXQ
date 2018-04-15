@@ -102,6 +102,7 @@ IMAGE_SIZE = (12, 8)
 with detection_graph.as_default():
   with tf.Session(graph=detection_graph) as sess:
     stolen = False
+    last_time = time.time()
     while True:
       #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
       raw_image = grab_screen(region=(X1, Y1, X2, Y2))
@@ -143,18 +144,18 @@ with detection_graph.as_default():
             cv2.putText(image_np, 'TARGET ACQUIRED!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
             person_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
       # keys.directMouse(0, 0, keys.mouse_rb_press)
+      
       keys.directKey("w")
-      keys.directMouse(0, 0, keys.mouse_lb_release)
-      time.sleep(1)
+      if (time.time() - last_time > 2):
+        keys.directMouse(0, 0, keys.mouse_lb_release)
+      
       if len(person_dict) > 0:
         closest = sorted(person_dict.keys())[0]
         person_choice = person_dict[closest]
         determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = X2 - X1, height = Y2 - Y1)
         keys.directMouse(0, 0, keys.mouse_lb_press)
-        keys.directKey("w", keys.key_release)
-        keys.directKey("w")
-        keys.directMouse(0, 0, keys.mouse_lb_release)
-        time.sleep(2)
+        last_time = time.time()
+      
           
       # vehicle_dict = {}
 
