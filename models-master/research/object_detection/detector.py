@@ -95,7 +95,7 @@ def determine_movement(mid_x, mid_y, width=1600, height=1140):
   y_move = 0.5 - mid_y
   hm_x = x_move / 0.5
   hm_y = y_move / 0.5
-  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width/5), -1*int(hm_y*height/5)))
+  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width/7.5), -1*int(hm_y*height/7.5)))
 
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
@@ -107,7 +107,7 @@ with detection_graph.as_default():
     while True:
       #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
       raw_image = grab_screen(region=(X1, Y1, X2, Y2))
-      vertices1 = np.array([[600, 1100], [600, 500], [850, 500], [850, 1100]], np.int32)
+      vertices1 = np.array([[450, 1100], [450, 500], [850, 500], [850, 1100]], np.int32)
       vertices2 = np.array([[25, 1100], [25, 500], [225, 500], [225, 1100]], np.int32)
       masked_image = roi(raw_image, [vertices1], [vertices2])
       screen = cv2.resize(masked_image, (800,450))
