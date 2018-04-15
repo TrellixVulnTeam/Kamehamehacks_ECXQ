@@ -104,7 +104,7 @@ with detection_graph.as_default():
     stolen = False
     while True:
       #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
-      raw_image = grab_screen(region=X1, Y1, X2, Y2)
+      raw_image = grab_screen(region=(X1, Y1, X2, Y2))
       vertices = np.array([500, 1100], [500, 400], [900, 400], [900, 1100], np.int32)
       masked_image = roi(raw_image, [vertices])
       screen = cv2.resize(masked_image, (800,450))
