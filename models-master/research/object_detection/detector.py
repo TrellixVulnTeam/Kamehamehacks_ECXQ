@@ -79,7 +79,7 @@ def load_image_into_numpy_array(image):
   return np.array(image.getdata()).reshape(
       (im_height, im_width, 3)).astype(np.uint8)
 
-def determine_movement(mid_x, mid_y, width=1560, height=1200):
+def determine_movement(mid_x, mid_y, width=1560, height=1160):
   x_move = 0.5 - mid_x
   y_move = 0.5 - mid_y
   hm_x = x_move / 0.5
@@ -93,7 +93,7 @@ with detection_graph.as_default():
   with tf.Session(graph=detection_graph) as sess:
     while True:
       #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
-      screen = cv2.resize(grab_screen(region=(0,40,1560,1240)), (800,450))
+      screen = cv2.resize(grab_screen(region=(0,60,1560,1220)), (800,450))
       image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
       # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
       image_np_expanded = np.expand_dims(image_np, axis=0)
