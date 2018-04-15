@@ -38,7 +38,7 @@ from utils import visualization_utils as vis_util
 
 def roi(img, vertices):
   # mask = np.zeros_like(img)
-  cv2.fillPoly(img, vertices, 255)
+  cv2.fillPoly(img, vertices, 16777215)
   # masked = cv2.bitwise_and(img, mask)
   return img
 
@@ -105,7 +105,7 @@ with detection_graph.as_default():
     while True:
       #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
       raw_image = grab_screen(region=(X1, Y1, X2, Y2))
-      vertices = np.array([[500, 1100], [500, 400], [900, 400], [900, 1100]], np.int32)
+      vertices = np.array([[600, 1100], [600, 500], [800, 500], [800, 1100]], np.int32)
       masked_image = roi(raw_image, [vertices])
       screen = cv2.resize(masked_image, (800,450))
       image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
@@ -133,26 +133,29 @@ with detection_graph.as_default():
           use_normalized_coordinates=True,
           line_thickness=8)
 
-      # person_dict = {}
-      # for i,b in enumerate(boxes[0]):
-      #   if classes[0][i] == 1:
-      #     if scores[0][i] >= 0.5:
-      #       mid_x = (boxes[0][i][1]+boxes[0][i][3])/2
-      #       mid_y = (boxes[0][i][0]+boxes[0][i][2])/2
-      #       apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),1)
-      #       cv2.putText(image_np, 'TARGET ACQUIRED!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
-      #       person_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
-      # keys.directMouse(0, 0, keys.mouse_rb_press)
-      # if len(person_dict) > 1:
-      #   closest = sorted(person_dict.keys())[1]
-      #   person_choice = person_dict[closest]
-      #   determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = X2 - X1, height = Y2 - Y1)
-      #   if closest < 0.7 and person_choice[0] > 0.4:
-      #     keys.directMouse(0, 0, keys.mouse_lb_press)
-      #     keys.directKey("w", keys.key_release)
-      #   else:
-      #     keys.directKey("w")
-      #     keys.directMouse(0, 0, keys.mouse_lb_release)
+      person_dict = {}
+      for i,b in enumerate(boxes[0]):
+        if classes[0][i] == 1:
+          if scores[0][i] >= 0.5:
+            mid_x = (boxes[0][i][1]+boxes[0][i][3])/2
+            mid_y = (boxes[0][i][0]+boxes[0][i][2])/2
+            apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),1)
+            cv2.putText(image_np, 'TARGET ACQUIRED!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
+            person_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
+      keys.directMouse(0, 0, keys.mouse_rb_press)
+      keys.directKey("w")
+      keys.directMouse(0, 0, keys.mouse_lb_release)
+      time.sleep(1)
+      if len(person_dict) > 0:
+        closest = sorted(person_dict.keys())[0]
+        person_choice = person_dict[closest]
+        determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = X2 - X1, height = Y2 - Y1)
+        if closest < 0.7:
+          keys.directMouse(0, 0, keys.mouse_lb_press)
+          keys.directKey("w", keys.key_release)
+          keys.directKey("w")
+          keys.directMouse(0, 0, keys.mouse_lb_release)
+          time.sleep(1)
           
       # vehicle_dict = {}
 
