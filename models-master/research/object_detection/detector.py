@@ -134,6 +134,7 @@ with detection_graph.as_default():
         person_choice = person_dict[closest]
         determine_movement(person_choice[0], person_choice[1])
         keys.directMouse(0, 0, keys.mouse_lb_press)
+        keys.directKey("w")
 
       cv2.imshow('window',image_np)
       cv2.moveWindow('window', 900, 0)
