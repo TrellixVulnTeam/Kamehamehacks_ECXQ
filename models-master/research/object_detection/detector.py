@@ -14,6 +14,11 @@ import time
 
 keys = k.Keys({})
 
+X1 = 0
+Y1 = 60
+X2 = 1560
+Y2 = 1220
+
 from collections import defaultdict
 from io import StringIO
 from matplotlib import pyplot as plt
@@ -93,7 +98,7 @@ with detection_graph.as_default():
   with tf.Session(graph=detection_graph) as sess:
     while True:
       #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
-      screen = cv2.resize(grab_screen(region=(0,60,1560,1220)), (800,450))
+      screen = cv2.resize(grab_screen(region=(X1,Y1,X2,Y2)), (800,450))
       image_np = cv2.cvtColor(screen, cv2.COLOR_BGR2RGB)
       # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
       image_np_expanded = np.expand_dims(image_np, axis=0)
@@ -132,8 +137,8 @@ with detection_graph.as_default():
       if len(person_dict) > 1:
         closest = sorted(person_dict.keys())[1]
         person_choice = person_dict[closest]
-        determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = 1560, height = 1160)
-        if closest < 0.7:
+        determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = X2 - X1, height = Y2 - Y1)
+        if closest < 0.7 and person_choice[0] > 0.4:
           keys.directMouse(0, 0, keys.mouse_lb_press)
           keys.directKey("w", keys.key_release)
         else:
