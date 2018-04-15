@@ -139,7 +139,7 @@ with detection_graph.as_default():
       person_dict = {}
       for i,b in enumerate(boxes[0]):
         if classes[0][i] == 1:
-          if scores[0][i] >= 0.2:
+          if scores[0][i] >= 0.4:
             mid_x = (boxes[0][i][1]+boxes[0][i][3])/2
             mid_y = (boxes[0][i][0]+boxes[0][i][2])/2
             apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),1)
