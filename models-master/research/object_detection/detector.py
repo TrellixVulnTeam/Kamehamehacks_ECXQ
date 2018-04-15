@@ -95,7 +95,7 @@ def determine_movement(mid_x, mid_y, width=1600, height=1140):
   y_move = 0.5 - mid_y
   hm_x = x_move / 0.5
   hm_y = y_move / 0.5
-  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width/7.5), -1*int(hm_y*height/7.5)))
+  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width/5.2), -1*int(hm_y*height/5.2)))
 
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
@@ -139,7 +139,7 @@ with detection_graph.as_default():
       person_dict = {}
       for i,b in enumerate(boxes[0]):
         if classes[0][i] == 1:
-          if scores[0][i] >= 0.5:
+          if scores[0][i] >= 0.2:
             mid_x = (boxes[0][i][1]+boxes[0][i][3])/2
             mid_y = (boxes[0][i][0]+boxes[0][i][2])/2
             apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),1)
