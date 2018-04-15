@@ -4,4 +4,5 @@
 # ...except for these files.
 !*/
 !.gitignore
-!*.py
+!*/models-master/research/object_detection/detector.py
+!*/models-master/research/object_detection/grabscreen.py
