@@ -16,8 +16,8 @@ keys = k.Keys({})
 
 X1 = 0
 Y1 = 60
-X2 = 1560
-Y2 = 1220
+X2 = 1600
+Y2 = 1200
 
 from collections import defaultdict
 from io import StringIO
@@ -90,12 +90,12 @@ def load_image_into_numpy_array(image):
   return np.array(image.getdata()).reshape(
       (im_height, im_width, 3)).astype(np.uint8)
 
-def determine_movement(mid_x, mid_y, width=1560, height=1160):
+def determine_movement(mid_x, mid_y, width=1600, height=1140):
   x_move = 0.5 - mid_x
   y_move = 0.5 - mid_y
   hm_x = x_move / 0.5
   hm_y = y_move / 0.5
-  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width/2.5), -1*int(hm_y*height/2.5)))
+  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width/2), -1*int(hm_y*height/2)))
 
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
