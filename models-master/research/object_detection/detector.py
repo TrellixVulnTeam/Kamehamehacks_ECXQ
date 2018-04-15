@@ -181,7 +181,7 @@ with detection_graph.as_default():
             keys.directKey("w")
 
       cv2.imshow('window',image_np)
-      cv2.moveWindow('window', 900, 0)
+      cv2.moveWindow('window', 700, 0)
       if cv2.waitKey(25) & 0xFF == ord('q'):
           cv2.destroyAllWindows()
           break
