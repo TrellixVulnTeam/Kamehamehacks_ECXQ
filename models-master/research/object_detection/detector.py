@@ -95,7 +95,7 @@ def determine_movement(mid_x, mid_y, width=1560, height=1160):
   y_move = 0.5 - mid_y
   hm_x = x_move / 0.5
   hm_y = y_move / 0.5
-  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width), -1*int(hm_y*height)))
+  keys.keys_worker.SendInput(keys.keys_worker.Mouse(0x0001, -1*int(hm_x*width/2), -1*int(hm_y*height/2)))
 
 # Size, in inches, of the output images.
 IMAGE_SIZE = (12, 8)
