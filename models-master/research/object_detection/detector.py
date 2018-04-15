@@ -37,11 +37,10 @@ from utils import label_map_util
 from utils import visualization_utils as vis_util
 
 def roi(img, vertices):
-  mask = np.zeros_like(img)
-  cv2.fillPoly(mask, vertices, 255)
-  #masked = cv2.bitwise_and(img, mask)
-  # return masked
-  return mask
+  # mask = np.zeros_like(img)
+  cv2.fillPoly(img, vertices, 255)
+  # masked = cv2.bitwise_and(img, mask)
+  return img
 
 # # Model preparation 
 # What model to download.
