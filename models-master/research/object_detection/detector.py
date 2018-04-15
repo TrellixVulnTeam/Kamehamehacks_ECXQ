@@ -124,28 +124,61 @@ with detection_graph.as_default():
           use_normalized_coordinates=True,
           line_thickness=8)
 
-      person_dict = {}
+      # person_dict = {}
+      # for i,b in enumerate(boxes[0]):
+      #   if classes[0][i] == 1:
+      #     if scores[0][i] >= 0.5:
+      #       mid_x = (boxes[0][i][1]+boxes[0][i][3])/2
+      #       mid_y = (boxes[0][i][0]+boxes[0][i][2])/2
+      #       apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),1)
+      #       cv2.putText(image_np, 'TARGET ACQUIRED!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
+      #       person_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
+      # keys.directMouse(0, 0, keys.mouse_rb_press)
+      # if len(person_dict) > 1:
+      #   closest = sorted(person_dict.keys())[1]
+      #   person_choice = person_dict[closest]
+      #   determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = X2 - X1, height = Y2 - Y1)
+      #   if closest < 0.7 and person_choice[0] > 0.4:
+      #     keys.directMouse(0, 0, keys.mouse_lb_press)
+      #     keys.directKey("w", keys.key_release)
+      #   else:
+      #     keys.directKey("w")
+      #     keys.directMouse(0, 0, keys.mouse_lb_release)
+          
+      vehicle_dict = {}
+
       for i,b in enumerate(boxes[0]):
-        if classes[0][i] == 1:
+        #                 car                    bus                  truck
+        if classes[0][i] == 3 or classes[0][i] == 6 or classes[0][i] == 8:
           if scores[0][i] >= 0.5:
             mid_x = (boxes[0][i][1]+boxes[0][i][3])/2
             mid_y = (boxes[0][i][0]+boxes[0][i][2])/2
-            apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),1)
-            cv2.putText(image_np, 'TARGET ACQUIRED!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
-            person_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
-      keys.directMouse(0, 0, keys.mouse_rb_press)
-      if len(person_dict) > 1:
-        closest = sorted(person_dict.keys())[1]
-        person_choice = person_dict[closest]
-        determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = X2 - X1, height = Y2 - Y1)
-        if closest < 0.7 and person_choice[0] > 0.4:
-          keys.directMouse(0, 0, keys.mouse_lb_press)
-          keys.directKey("w", keys.key_release)
-        else:
-          keys.directKey("w")
-          keys.directMouse(0, 0, keys.mouse_lb_release)
-          
+            apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),3)
+            cv2.putText(image_np, '{}'.format(apx_distance), (int(mid_x*800),int(mid_y*450)), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255,255,255), 2)
 
+            '''
+            if apx_distance <=0.5:
+              if mid_x > 0.3 and mid_x < 0.7:
+                cv2.putText(image_np, 'WARNING!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
+            '''
+
+            vehicle_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
+
+      if len(vehicle_dict) > 0:
+        closest = sorted(vehicle_dict.keys())[0]
+        vehicle_choice = vehicle_dict[closest]
+        print('CHOICE:',vehicle_choice)
+        if not stolen:
+          determine_movement(mid_x = vehicle_choice[0], mid_y = vehicle_choice[1], width=1280, height=705)
+          if closest < 0.1:
+            keys.directKey("w", keys.key_release)
+            keys.directKey("f")
+            time.sleep(0.05)          
+            keys.directKey("f", keys.key_release)
+            stolen = True
+          else:
+            keys.directKey("w")
+            
       cv2.imshow('window',image_np)
       cv2.moveWindow('window', 900, 0)
       if cv2.waitKey(25) & 0xFF == ord('q'):
