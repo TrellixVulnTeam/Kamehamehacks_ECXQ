@@ -147,14 +147,14 @@ with detection_graph.as_default():
       keys.directMouse(0, 0, keys.mouse_lb_release)
       time.sleep(1)
       if len(person_dict) > 0:
-        closest = sortesd(person_dict.keys())[0]
+        closest = sorted(person_dict.keys())[0]
         person_choice = person_dict[closest]
         determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = X2 - X1, height = Y2 - Y1)
         keys.directMouse(0, 0, keys.mouse_lb_press)
         keys.directKey("w", keys.key_release)
         keys.directKey("w")
         keys.directMouse(0, 0, keys.mouse_lb_release)
-        time.sleep(1)
+        time.sleep(2)
           
       # vehicle_dict = {}
 
