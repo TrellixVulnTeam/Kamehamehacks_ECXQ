@@ -96,6 +96,7 @@ IMAGE_SIZE = (12, 8)
 
 with detection_graph.as_default():
   with tf.Session(graph=detection_graph) as sess:
+    stolen = False
     while True:
       #screen = cv2.resize(grab_screen(region=(0,40,1280,745)), (WIDTH,HEIGHT))
       screen = cv2.resize(grab_screen(region=(X1,Y1,X2,Y2)), (800,450))
@@ -178,7 +179,7 @@ with detection_graph.as_default():
             stolen = True
           else:
             keys.directKey("w")
-            
+
       cv2.imshow('window',image_np)
       cv2.moveWindow('window', 900, 0)
       if cv2.waitKey(25) & 0xFF == ord('q'):
