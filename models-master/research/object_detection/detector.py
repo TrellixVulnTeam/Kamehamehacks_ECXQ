@@ -39,8 +39,9 @@ from utils import visualization_utils as vis_util
 def roi(img, vertices):
   mask = np.zeros_like(img)
   cv2.fillPoly(mask, vertices, 255)
-  masked = cv2.bitwise_and(img, mask)
-  return masked
+  #masked = cv2.bitwise_and(img, mask)
+  # return masked
+  return mask
 
 # # Model preparation 
 # What model to download.
