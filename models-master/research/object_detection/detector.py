@@ -129,7 +129,7 @@ with detection_graph.as_default():
             cv2.putText(image_np, 'TARGET ACQUIRED!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
             person_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
 
-      if len(person_dict) > 0:
+      if len(person_dict) > 1:
         closest = sorted(person_dict.keys())[1]
         person_choice = person_dict[closest]
         determine_movement(person_choice[0], person_choice[1])
