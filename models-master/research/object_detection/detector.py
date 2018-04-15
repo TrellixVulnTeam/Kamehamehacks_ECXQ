@@ -132,9 +132,13 @@ with detection_graph.as_default():
       if len(person_dict) > 1:
         closest = sorted(person_dict.keys())[1]
         person_choice = person_dict[closest]
-        determine_movement(person_choice[0], person_choice[1])
-        keys.directMouse(0, 0, keys.mouse_lb_press)
-        keys.directKey("w")
+        determine_movement(mid_x = person_choice[0], mid_y = person_choice[1], width = 1560, height = 1160)
+        if closest < 0.7:
+          keys.directMouse(0, 0, keys.mouse_lb_press)
+          keys.directKey("w", keys.key_release)
+        else:
+          keys.directKey("w")
+          keys.directMouse(0, 0, keys.mouse_lb_release)
 
       cv2.imshow('window',image_np)
       cv2.moveWindow('window', 900, 0)
