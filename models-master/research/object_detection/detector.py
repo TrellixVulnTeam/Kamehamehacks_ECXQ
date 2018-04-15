@@ -128,7 +128,7 @@ with detection_graph.as_default():
             apx_distance = round(((1 - (boxes[0][i][3] - boxes[0][i][1]))**4),1)
             cv2.putText(image_np, 'TARGET ACQUIRED!!!', (50,50), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0,0,255), 3)
             person_dict[apx_distance] = [mid_x, mid_y, scores[0][i]]
-
+      keys.directMouse(0, 0, keys.mouse_rb_press)
       if len(person_dict) > 1:
         closest = sorted(person_dict.keys())[1]
         person_choice = person_dict[closest]
@@ -139,6 +139,7 @@ with detection_graph.as_default():
         else:
           keys.directKey("w")
           keys.directMouse(0, 0, keys.mouse_lb_release)
+          
 
       cv2.imshow('window',image_np)
       cv2.moveWindow('window', 900, 0)
